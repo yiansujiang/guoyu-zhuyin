@@ -334,6 +334,38 @@ body.printing .tbl .dl{display:none!important}
   .icon-btn{padding:0 8px}
 }
 .exporting .topbar{position:static}
+
+/* ---------- 浮動：版權與資料來源 ---------- */
+.cr-link{border:0;background:none;color:var(--lav-d);font:inherit;font-weight:700;text-decoration:underline;cursor:pointer;padding:4px 6px;min-height:40px}
+.cr-link:hover{color:#7a5fd0}
+.cr-fab{position:fixed;right:calc(14px + env(safe-area-inset-right,0px));bottom:calc(14px + env(safe-area-inset-bottom,0px));z-index:74;
+  display:inline-flex;align-items:center;gap:6px;min-height:52px;padding:0 18px;border-radius:999px;border:4px solid var(--lav-d);
+  background:var(--lav);color:var(--ink);font:inherit;font-weight:900;font-size:22px;cursor:pointer;
+  box-shadow:0 5px 0 #cdbff5,0 10px 20px rgba(75,63,102,.22);transition:transform .12s}
+.cr-fab:hover{transform:translateY(-2px)}
+.cr-fab:active{transform:translateY(3px);box-shadow:0 1px 0 #cdbff5}
+.cr-fab-t{font-size:18px}
+.cr-overlay{position:fixed;inset:0;z-index:80;background:rgba(75,63,102,.38);backdrop-filter:blur(2px)}
+.cr-overlay[hidden]{display:none}
+.cr-panel{position:fixed;z-index:82;left:50%;top:50%;transform:translate(-50%,-50%);width:min(680px,calc(100vw - 32px));max-height:min(86vh,860px);
+  display:flex;flex-direction:column;background:#fffdfb;border:4px solid var(--lav-d);border-radius:28px;
+  box-shadow:0 10px 0 #cdbff5,0 20px 44px rgba(75,63,102,.32);overflow:hidden}
+.cr-panel[hidden]{display:none}
+.cr-head{display:flex;align-items:center;justify-content:space-between;gap:10px;padding:14px 20px;border-bottom:4px solid var(--lav);background:linear-gradient(135deg,#fff6fb,#f3f0ff);flex:none}
+.cr-title{font-family:var(--h-font);font-size:30px;margin:0;color:#5b4a8a;background:linear-gradient(transparent 64%,var(--lemon) 64%);padding:0 8px}
+.cr-close{flex:none;width:48px;height:48px;border-radius:50%;border:3px solid var(--pink-d);background:var(--pink);color:var(--ink);font-size:22px;font-weight:900;cursor:pointer;box-shadow:0 4px 0 var(--pink-d);padding:0}
+.cr-close:active{transform:translateY(3px);box-shadow:0 1px 0 var(--pink-d)}
+.cr-body{padding:18px 20px;overflow-y:auto;display:flex;flex-direction:column;gap:14px}
+.cr-body .card{padding:14px 18px}
+.cr-body .sub{margin:0 0 6px}
+.cr-lead{margin:0;font-weight:700}
+@media (max-width:560px){
+  .cr-fab-t{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .cr-fab{padding:0;width:56px;height:56px;justify-content:center;font-size:26px}
+  .cr-title{font-size:24px}
+}
+@media print{.cr-fab,.cr-overlay,.cr-panel,.cr-link{display:none!important}}
+.exporting .cr-fab,.exporting .cr-overlay,.exporting .cr-panel{display:none!important}
 </style>
 </head>
 <body>
@@ -460,7 +492,41 @@ body.printing .tbl .dl{display:none!important}
   <footer class="foot">
     <div class="badge-teacher">🐣 江 JIANG</div>
     <div> ・國語首冊・© 版權屬 南一出版社所有</div>
+    <div><button id="crLink" class="cr-link" type="button">版權與資料來源</button></div>
   </footer>
+
+  <button id="crFab" class="cr-fab" type="button" aria-expanded="false" aria-controls="crPanel" title="版權與資料來源" aria-label="版權與資料來源">©<span class="cr-fab-t">版權</span></button>
+  <div id="crOverlay" class="cr-overlay" hidden></div>
+  <aside id="crPanel" class="cr-panel" role="dialog" aria-modal="true" aria-labelledby="crTitle" hidden>
+    <div class="cr-head">
+      <h2 id="crTitle" class="cr-title">版權與資料來源</h2>
+      <button id="crClose" class="cr-close" type="button" aria-label="關閉">✕</button>
+    </div>
+    <div class="cr-body">
+      <p class="cr-lead">本站為特殊教育輔助教材，非出版社官方產品；不收費、不作商業用途，僅供教學使用。</p>
+      <div class="card" style="--c:var(--sky);--cs:var(--sky-d)">
+        <h3 class="sub">📘 教材內容</h3>
+        <ul class="tips">
+          <li>課次、生字、語詞與課文依據南一出版 115 學年度上學期國語課本與教師資源，著作權屬原出版社。</li>
+          <li>例句、閱讀理解選擇題、段落大意等，由本站依官方教材重新改寫，供學生練習使用。</li>
+        </ul>
+      </div>
+      <div class="card" style="--c:var(--mint);--cs:var(--mint-d)">
+        <h3 class="sub">🔤 字音、字形與詞語</h3>
+        <ul class="tips">
+          <li>注音查核參考教育部《國語辭典簡編本》、《重編國語辭典修訂本》與教育部教育雲「教育百科」。本站未轉載辭典釋義原文。</li>
+        </ul>
+      </div>
+      <div class="card" style="--c:var(--lemon);--cs:var(--lemon-d)">
+        <h3 class="sub">🎨 插圖與聲音</h3>
+        <ul class="tips">
+          <li>語詞、成語插圖與大項圖示為本站自製（含 AI 輔助繪製），僅供本站教學使用。</li>
+          <li>朗讀使用裝置內建的語音合成，不錄音。念讀語詞、朗讀挑戰的語音辨識使用裝置內建服務（iPad 為 Apple、Chrome 為 Google，聲音會傳到該服務辨識）；本站不錄音、不保存聲音，只在這台載具記下辨識出的文字。</li>
+        </ul>
+      </div>
+    </div>
+  </aside>
+
 </div>
 
 <script>
@@ -1213,6 +1279,29 @@ window.addEventListener('scroll',spy,{passive:true});window.addEventListener('re
 spy();
 window.addEventListener('pageshow',render);
 render();
+
+/* 浮動：版權與資料來源 */
+var crFab=$('#crFab'),crLink=$('#crLink'),crPanel=$('#crPanel'),crOverlay=$('#crOverlay'),crClose=$('#crClose'),crDone=false;
+function crSet(on){
+  if(on){
+    crPanel.hidden=false;crOverlay.hidden=false;
+    if(!crDone){
+      crDone=true;
+      if(window.BlackboardZhuyin&&window.__ZY_OPT){
+        try{var o={};for(var k in window.__ZY_OPT)o[k]=window.__ZY_OPT[k];o.observeMutations=false;
+          window.BlackboardZhuyin.annotateElement(crPanel,o);}catch(e){}
+      }
+    }
+    crFab.setAttribute('aria-expanded','true');crClose.focus();
+  }else{
+    crPanel.hidden=true;crOverlay.hidden=true;crFab.setAttribute('aria-expanded','false');crFab.focus();
+  }
+}
+crFab.addEventListener('click',function(){crSet(crPanel.hidden);});
+if(crLink)crLink.addEventListener('click',function(){crSet(true);});
+crClose.addEventListener('click',function(){crSet(false);});
+crOverlay.addEventListener('click',function(){crSet(false);});
+document.addEventListener('keydown',function(e){if(e.key==='Escape'&&!crPanel.hidden)crSet(false);});
 })();
 
 </script>
